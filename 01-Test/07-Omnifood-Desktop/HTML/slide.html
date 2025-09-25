@@ -1,0 +1,15 @@
+from moviepy.editor import * # File path for uploaded logo logo_path =
+"/mnt/data/apple-logo-white.png" # Create a black background video duration = 4
+# seconds video_size = (800, 600) background = ColorClip(size=video_size,
+color=(0, 0, 0), duration=duration) # Load the Apple logo logo =
+(ImageClip(logo_path) .set_duration(duration) .resize(height=200)
+.set_position(("center", "center"))) # Create the text that slides in text =
+(TextClip("Apple Everything", fontsize=60, color="white", font="Arial-Bold")
+.set_duration(duration)) # Animate text sliding in from right to beside the logo
+# Start offscreen at x=video_size[0], move to a target position text_target_x =
+video_size[0]//2 + 150 text_y = video_size[1]//2 - 30 def text_position(t):
+start_x = video_size[0] + 300 duration_in = 2.0 if t < duration_in: x = start_x
+- (start_x - text_target_x) * (t / duration_in) else: x = text_target_x return
+(x, text_y) text = text.set_position(text_position) # Composite video final =
+CompositeVideoClip([background, logo, text]) output_path =
+"/mnt/data/apple_animation.mp4" final.write_videofile(output_path, fps=30)
